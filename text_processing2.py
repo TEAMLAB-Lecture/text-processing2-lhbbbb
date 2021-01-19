@@ -1,9 +1,9 @@
 #######################
 # Test Processing II  #
 #######################
+import re
 
-
-def digits_to_words(input_string):
+def digits_to_words(input_string:str)->str:
     """
     인풋으로 받는 스트링에서 숫자만 추출하여 영어 단어로 변환하여 단어들이 연결된 스트링을 반환함
     아래의 요건들을 충족시켜야함
@@ -28,7 +28,14 @@ def digits_to_words(input_string):
             >>> tp2.digits_to_words(digits_str2)
             'three one four one five'
     """
-    digit_string = None
+    p = re.compile('[0-9]')
+    m = p.findall(input_string)
+    if m:
+        convert = {"0":"zero","1":"one", "2":"two", "3":"three", "4":"four",
+        "5":"five","6":"six","7":"seven","8":"eight","9":"nine"}
+        return " ".join(map(lambda x: convert[x], m))
+    else:
+        digit_string = ""
     return digit_string
 
 
@@ -64,5 +71,13 @@ def to_camel_case(underscore_str):
             >>> tp2.to_camel_case(underscore_str3)
             "alreadyCamel"
     """
-    camelcase_str = None
+    p = re.compile("[^_]*")
+    m = p.findall(underscore_str)
+    if underscore_str.count("_") == 0:
+        return underscore_str
+    camelcase_str = ''.join(map(lambda x: x.capitalize(), m))
+    if camelcase_str != "":
+        camelcase_str = camelcase_str[0].lower() + camelcase_str[1:]
     return camelcase_str
+
+print(to_camel_case("alreadyCamel"))
